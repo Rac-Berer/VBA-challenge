@@ -1,11 +1,11 @@
 Sub Multi_Stocks():
 
-'Setting up parameters
+'Setting up
 Dim i As Long
 Dim summary_index As Integer
 Dim open_index As Long
 Dim totalvolume As Double
-Dim LR As Long
+Dim LastRow As Long
 Dim percentchange As Double
 Dim maxpc As Double
 Dim maxpcTicker As String
@@ -14,6 +14,13 @@ Dim minpcTicker As String
 Dim maxvol As Double
 Dim maxvolTicker As String
 
+'Set on each sheet
+For Each ws In Worksheets
+ws.Activate
+
+
+
+
 totalvolume = 0
 summary_index = 2
 open_index = 2
@@ -21,15 +28,8 @@ maxpc = 0
 minpc = 0
 maxvol = 0
 
-
-'Set on each sheet
-For Each ws In Worksheets
-ws.Activate
-
-
 'set up last row
-LR = Cells(Rows.Count, 1).End(xlUp).Row
-
+LastRow = Cells(Rows.Count, 1).End(xlUp).Row
 
 
 'Inserting text
@@ -44,7 +44,7 @@ LR = Cells(Rows.Count, 1).End(xlUp).Row
      Cells(1, 17).Value = "Value"
      
 'For Loops
-For i = 2 To LR
+For i = 2 To LastRow
     totalvolume = totalvolume + Cells(i, 7).Value
     
     If (Cells(i + 1, 1).Value <> Cells(i, 1).Value) Then
@@ -70,7 +70,6 @@ For i = 2 To LR
         Cells(summary_index, 12).NumberFormat = "0"
         Cells(summary_index, 10).NumberFormat = "0.00"
         
-        'ask about the second two ifs
         If percentchange > maxpc Then
             maxpc = percentchange
             maxpcTicker = Cells(i, 1).Value
@@ -95,7 +94,7 @@ For i = 2 To LR
 
 Next i
 
-'insertion of the greatest data
+'insertion of the "greatest" data
 Cells(2, 17).Value = maxpc
 Cells(2, 17).NumberFormat = "0.00%"
 Cells(2, 16).Value = maxpcTicker
